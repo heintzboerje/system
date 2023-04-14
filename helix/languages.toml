@@ -1,0 +1,31 @@
+[[language]]
+name = "python"
+formatter = { command = "black", args = [ "--quiet", "-"] }
+auto-format = true
+
+[[language]]
+name = "c"
+formatter = { command = "clang-format"}
+auto-format = true
+
+
+# This whole block doesn't work and I don't know why
+# [[language]]
+# name = "hdl"
+# scope = "source.hdl"
+# file-types = ["hdl"]
+# comment-token = "//"
+# roots = []
+# grammar = "verilog"
+
+# [[language]]
+# name = "asm"
+# scope = "source.asm"
+# file-types = ["asm"]
+# comment-token = "//"
+# roots = []
+# grammar = "asm"
+
+# [[grammar]]
+# name = "asm"
+# source = { git = "https://github.com/bearcove/tree-sitter-x86asm.git", rev ="ca72933e74ea3b3f995bc4b245f03328554f1e65"}
