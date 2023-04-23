@@ -1,5 +1,3 @@
-;; This is an operating system configuration generated
-;; by the graphical installer.
 ;;
 ;; Once installation is complete, you can learn and modify
 ;; this file to tweak the system configuration, and pass it
@@ -9,65 +7,43 @@
 
 ;; Indicate which modules to import to access the variables
 ;; used in this configuration.
-(use-modules (gnu) ;(gnu system setuid)
-(gnu packages wm)(nongnu packages linux)(gnu services)(gnu packages shells))
-(use-service-modules cups desktop networking xorg ssh)
+(use-modules (gnu)
+	     (nongnu packages linux))
+(use-service-modules cups desktop networking ssh xorg sddm nix)
+(use-package-modules package-management shells wm)
 
 (operating-system
   (kernel linux)
-  (firmware (cons* iwlwifi-firmware
-		   %base-firmware))
+  (firmware (list linux-firmware))
   (locale "en_US.utf8")
   (timezone "America/New_York")
   (keyboard-layout (keyboard-layout "us"))
-  (host-name "Yamaho")
+  (host-name "Coeus")
 
   ;; The list of user accounts ('root' is implicit).
   (users (cons* (user-account
-			(name "nixbld1")
-			(comment "")
-			(group "nixbld")
-			(supplementary-groups
-				'("nixbld"))
-			(create-home-directory? #f)
-			(shell "$(which nologin)")
-			(system? #t))
-
-		(user-account
-                  (name "42ne")
-                  (comment "Anonymous")
+                  (name "enki")
+                  (comment "Enki")
                   (group "users")
-                  (home-directory "/home/42ne")
-                  (supplementary-groups '("wheel" "netdev" "audio" "video" "lp"))
-		  (shell (file-append zsh "/bin/zsh"))
-									)
+                  (home-directory "/home/enki")
+                  (supplementary-groups '("wheel" "netdev" "audio" "video"))
+                  (shell (file-append zsh "/bin/zsh")))
                 %base-user-accounts))
-
-  (groups (cons* (user-group
-	(name "nixbld"))
-	%base-groups))
 
   ;; Packages installed system-wide.  Users can also install packages
   ;; under their own account: use 'guix search KEYWORD' to search
   ;; for packages and 'guix install PACKAGE' to install a package.
-  (packages (append (list
-			  (specification->package "icedtea")
-				(specification->package "bluez")
-				(specification->package "python")
-				(specification->package "python-lsp-server")
-			  ; (specification->package "i3lock")
-				; (specification->package "i3lock-fancy")
-			  (specification->package "qtile")
-			  (specification->package "kitty")
-			  (specification->package "nix")
-			  (specification->package "awesome")
+  
+  (packages (append (list (specification->package "awesome")
+			                    (specification->package "qtile")
+			                    (specification->package "icedtea")
+                          (specification->package "i3lock")
+			                    (specification->package "bluez")
+			                    (specification->package "kitty")
+			                    (specification->package "nix")
                           (specification->package "nss-certs"))
                     %base-packages))
 
-	; (setuid-programs
-		; (append (list (setuid-program
-										; (program (file-append i3lock-fancy "/bin/i3lock-fancy"))))
-						; %setuid-programs))
   ;; Below is the list of system services.  To search for available
   ;; services, run 'guix system search KEYWORD' in a terminal.
   (services
@@ -78,48 +54,39 @@
                  (service openssh-service-type)
                  (service tor-service-type)
                  (service cups-service-type)
-							   ; (service screen-locker-service-type
-								   ; (screen-locker-configuration
-								      ; "i3lock" (file-append i3lock-fancy "/bin/i3lock-fancy") #f))
-								 ; (service bluetooth-service-type (bluetooth-configuration
-								  ; (just-works-repairing 'confirm)
-								   ; (auto-enable? #t)))
-								 ; (bluetooth-service (auto-enable? #t))
-
+            		 (service nix-service-type)
+            		 (service bluetooth-service-type)
+                 (service screen-locker-service-type
+                           (screen-locker-configuration
+                              "i3lock" (file-append i3lock "/bin/i3lock") #f))
                  (set-xorg-configuration
-                  (xorg-configuration (keyboard-layout keyboard-layout))))
+                  (xorg-configuration (keyboard-layout keyboard-layout)) sddm-service-type))
+
            ;; This is the default list of services we
            ;; are appending to.
-		 (modify-services %desktop-services
-				  (guix-service-type config => (guix-configuration
-								(inherit config)
-								(substitute-urls
-								 (append (list "https://substitutes.nonguix.org")
-									 %default-substitute-urls))
-								(authorized-keys
-								 (append (list (local-file "signing-key.pub"))
-									 %default-authorized-guix-keys)))))
-		 ))
-
+           (modify-services %desktop-services
+			    (delete gdm-service-type))))
+  
   (bootloader (bootloader-configuration
                 (bootloader grub-efi-bootloader)
                 (targets (list "/boot/efi"))
                 (keyboard-layout keyboard-layout)))
+  
   (swap-devices (list (swap-space
                         (target (uuid
-                                 "854e5dca-6795-4514-ace6-a2c6e7a71019")))))
+                                 "4ea9bd52-f560-4f69-8e53-71c71bb2a420")))))
 
   ;; The list of file systems that get "mounted".  The unique
   ;; file system identifiers there ("UUIDs") can be obtained
   ;; by running 'blkid' in a terminal.
   (file-systems (cons* (file-system
+                         (mount-point "/boot/efi")
+                         (device (uuid "9015-A9B4"
+                                       'fat32))
+                         (type "vfat"))
+                       (file-system
                          (mount-point "/")
                          (device (uuid
-                                  "4167c0a5-d47e-4e4d-a276-80688c78be42"
+                                  "82207e91-7aa4-44ff-b07a-2a3d68b89f8e"
                                   'ext4))
-                         (type "ext4"))
-                       (file-system
-                         (mount-point "/boot/efi")
-                         (device (uuid "11FE-4DAF"
-                                       'fat32))
-                         (type "vfat")) %base-file-systems)))
+                         (type "ext4")) %base-file-systems)))
