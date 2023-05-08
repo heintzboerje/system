@@ -142,7 +142,7 @@ keys = [
         ),
         desc="Spawn a command using a prompt widget",
     ),
-    # Key([mod], "d", lazy.group["editor"].dropdown_toggle("helix")),
+    # Key([mod], "v", lazy.widget["visualiser"].start(), desc="Toggle visualiser"),
 ]
 
 groups = [
@@ -156,8 +156,6 @@ groups = [
     Group("7"),
     Group("8"),
     Group("9"),
-    # ScratchPad(
-    # "editor", [DropDown("helix", "kitty /home/42ne/.cargo/bin/hx", opacity=0.9)]
     # ),
 ]
 
@@ -229,15 +227,19 @@ screens = [
                 # foreground="#efdc0b",
                 # **decor,
                 # ),
-                widget.Image(filename="/home/42ne/.config/qtile/guix.svg", margin=1),
+                widget.Image(filename="~/.config/qtile/guix.svg", margin=1),
                 widget.AGroupBox(borderwidth=0),
                 widget.GlobalMenu(),
-                widget.Prompt(ignore_dups_history=True),
+                widget.Notify(),
                 widget.Spacer(),
                 # widget.Visualizer(
-                # cava_path="/home/42ne/.guix-profile/bin/cava", hide=False
+                # autostart=True,
+                # cava_path="/home/42ne/.guix-profile/bin/cava",
+                # hide=False,
                 # background="#BC83E37F",
-                # bars=8,
+                # bar_color="#ffffff",
+                # bars=5,
+                # height=16,
                 # width=100,
                 # ),
                 widget.WidgetBox(
@@ -291,16 +293,16 @@ screens = [
                     mute_command="--toggle-mute",
                     volume_down_command="--decrease 5",
                     volume_up_command="--increase 5 --allow-boost --set-limit 150",
-                    update_interval=0.01,
+                    update_interval=0.001,
                 ),
-                widget.Bluetooth(),
+                # widget.Bluetooth(),
                 widget.WiFiIcon(interface="wlp0s20f3"),
                 widget.AnalogueClock(face_shape="circle", hour_size=1, minute_size=1),
             ],
             17,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-            background="ffffff00",
+            background="#00000000",
             # opacity=0,
         ),
         bottom=bar.Bar(
@@ -319,7 +321,7 @@ screens = [
                 # disable_drag=True,
                 # hide_unused=True,
                 # ),
-                widget.Spacer(),
+                widget.Moc(),
                 # widget.TaskList(
                 # theme_mode="preferred",
                 # theme_path="/home/42ne/.local/share/icons/Deepin2022",
@@ -335,10 +337,10 @@ screens = [
                 ),
             ],
             24,
-            background="ffffff00",
+            background="#ffffff00",
             # opacity=0,
         ),
-        wallpaper="~/.config/qtile/wallpapers/starry-night/road.jpg",
+        wallpaper="~/.config/qtile/wallpapers/starry-night/tree.jpg",
         wallpaper_mode="fill",
     ),
 ]

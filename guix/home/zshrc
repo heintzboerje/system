@@ -1,1 +1,13 @@
 source /run/current-system/profile/etc/profile.d/nix.sh
+
+zstyle ':completion:*' rehash true
+plugins+=(zsh-completions zsh-syntax-highlighting)
+autoload -U compinit && compinit
+
+autoload -U run-help
+autoload run-help-git
+autoload run-help-svn
+autoload run-help-svk
+alias help=run-help
+
+eval "$(starship init zsh)"
