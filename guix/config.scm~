@@ -43,12 +43,10 @@
   
   (packages (append (list (specification->package "awesome")
                           (specification->package "qtile")
-			  (specification->package "xmonad")
-			  (specification->package "ghc-xmonad-contrib")
-			  (specification->package "xmobar")
                           (specification->package "sugar-dark-sddm-theme")
                           (specification->package "icedtea")
-			  ;;(specification->package "racket")
+                          (specification->package "gcc-toolchain")
+                          (specification->package "racket")
                           (specification->package "i3lock")
                           (specification->package "i3lock-fancy")
                           (specification->package "bluez")
@@ -77,21 +75,12 @@
 		               (xorg-configuration (keyboard-layout keyboard-layout)))))
             (service screen-locker-service-type
                      (screen-locker-configuration
-                      "i3lock-fancy" (file-append i3lock-fancy "/bin/i3lock-fancy") #f)))
+                      "i3lock-fancy" (file-append i3lock-fancy "/bin/i3lock") #f)))
 	   
            ;; This is the default list of services we
            ;; are appending to.
             (modify-services %desktop-services
-			      (delete gdm-service-type)
-			      (guix-service-type config =>
-						 (guix-configuration
-						   (inherit config)
-						   (substitute-urls
-						     (append (list "https://substitutes.nonguix.org")
-							     %defaul-substitute-urls))
-						   (authorized-keys
-						     (append (list (local-file "./key.pub"))
-								   %default-authoraized-guix-keys)))))))
+			      (delete gdm-service-type))))
   
   (bootloader (bootloader-configuration
                (bootloader grub-efi-bootloader)
