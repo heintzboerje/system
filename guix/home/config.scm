@@ -28,20 +28,21 @@
                                             "zathura-djvu" "zathura-ps"
                                             "zathura-pdf-mupdf" "qutebrowser"
                                             "moc" "mit-scheme"
-                                            "ruby" "python-ipython")))
-              
+                                            "ruby" "python-ipython"
+					    "calibre"
+					    )))
  (services (list
             (service home-zsh-service-type
              (home-zsh-configuration
               (zshrc (list (local-file "zshrc" "zshrc")))))
             (service home-redshift-service-type))))
-          ; (service home-dbus-service-type)
+           ;; (service home-dbus-service-type)
             
-      ;(service home-unclutter-service-type
-        ; (home-unclutter-configuration
-        ;  (idle-timeout 15
-       ;    ))) 
-          ; (service home-kodi-service-type)
-          ; (service home-xmodmap-service-type
-          ; (home-xmodmap-configuration (key-map '(("" . "")))))
+      ;; (service home-unclutter-service-type
+         ;; (home-unclutter-configuration
+          ;; (idle-timeout 15
+           ;; ))) 
+           ;; (service home-kodi-service-type)
+           ;; (service home-xmodmap-service-type
+           ;; (home-xmodmap-configuration (key-map '(("" . "")))))
       
