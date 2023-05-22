@@ -88,10 +88,10 @@
 						   (inherit config)
 						   (substitute-urls
 						     (append (list "https://substitutes.nonguix.org")
-							     %defaul-substitute-urls))
+							     %default-substitute-urls))
 						   (authorized-keys
 						     (append (list (local-file "./key.pub"))
-								   %default-authoraized-guix-keys)))))))
+								   %default-authorized-guix-keys)))))))
   
   (bootloader (bootloader-configuration
                (bootloader grub-efi-bootloader)
@@ -100,7 +100,7 @@
   
   (swap-devices (list (swap-space
                        (target (uuid
-                                "4ea9bd52-f560-4f69-8e53-71c71bb2a420")))))
+                                "24f0f314-e4ee-4f62-82f1-46f835df0603")))))
   
   ;; The list of file systems that get "mounted".  The unique
   ;; file system identifiers there ("UUIDs") can be obtained
@@ -113,6 +113,6 @@
                        (file-system
                         (mount-point "/")
                         (device (uuid
-                                 "82207e91-7aa4-44ff-b07a-2a3d68b89f8e"
+                                 "09dd13da-91b9-4279-8b52-bb1507dcbe89"
                                  'ext4))
                         (type "ext4")) %base-file-systems)))
