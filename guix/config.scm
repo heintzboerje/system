@@ -99,20 +99,17 @@
                (keyboard-layout keyboard-layout)))
   
   (swap-devices (list (swap-space
-                       (target (uuid
-                                "24f0f314-e4ee-4f62-82f1-46f835df0603")))))
+                       (target (file-system-label
+                                "my-swap")))))
   
   ;; The list of file systems that get "mounted".  The unique
   ;; file system identifiers there ("UUIDs") can be obtained
   ;; by running 'blkid' in a terminal.
   (file-systems (cons* (file-system
                         (mount-point "/boot/efi")
-                        (device (uuid "9015-A9B4"
-                                      'fat32))
+                        (device (file-system-label "boot-area"))
                         (type "vfat"))
                        (file-system
                         (mount-point "/")
-                        (device (uuid
-                                 "09dd13da-91b9-4279-8b52-bb1507dcbe89"
-                                 'ext4))
+                        (device (file-system-label "my-root"))
                         (type "ext4")) %base-file-systems)))
