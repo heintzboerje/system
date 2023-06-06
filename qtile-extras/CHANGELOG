@@ -1,0 +1,34 @@
+2022-02-22: [RELEASE] v0.22.1 (skippied v0.22.0)
+2022-09-22: [BUGFIX] Stop multiple visualiser processes being spawned by widget
+2022-09-19: [FEATURE] Add `Visualizer` widget
+2022-09-16: [BUGFIX] Fix transparency issue in `PowerLineDecoration`
+2022-09-13: [FEATURE] Add clipping to `RectDecoration`
+2022-09-11: [FEATURE] Add grouping to `RectDecoration`
+2022-09-11: [BUGFIX] Fix mouse callback bug in `WifiIcon` widget
+2022-08-24: [BUGFIX] Better handling of popup finalisation
+2022-08-19: [BUGFIX] Unsubscribe signal callbacks in `Upower` widget on restart
+2022-08-19: [BUGFIX] Fix bug where `GlobalMenu` is not shown for current window after restart
+2022-08-19: [BUGFIX] Fix menu position for `StatusNotifier` for multiple monitors
+2022-08-18: [FEATURE] Add `PowerLineDecoration`
+2022-07-27: [FEATURE] Add `fill_charge` to UPower widget
+2022-07-21: [BUGFIX] Fix CurrentLayoutIcon to work with latest git version
+2022-07-21: [BUGFIX] Fix blocking API calls in Snapcast and GithubNotification widgets
+2022-07-07: [BUGFIX] Fix UPowerWidget not showing text on click when fontsize is None
+2022-07-03: [PACKAGING] Use git versioning details
+2022-07-03: [BUGFIX] Fix scaling on CurrentLayoutIcon and disable `use_mask=True` default
+2022-07-02: [PACKAGING] Fix missing files in package
+2022-07-02: [BUGFIX] Fix WordClock crash at certain times
+2022-07-01: [FEATURE] Add CurrentLayoutIcon widget (with colour icons)
+2022-06-28: [FEATURE] Add GithubNotifications widget
+2022-06-28: [BUGFIX] Fix keyboard navigation for toolkit (must be on latest git version of qtile)
+2022-05-26: [CONFIG_BREAK] Use `foreground` to set font colour, rather than `font_colour`
+2022-05-08: [FEATURE] Add GlobalMenu widget (alpha version!)
+2022-05-08: [FEATURE] Add AnalogueClock widget
+2022-04-29: [FEATURE] Add ability to display widgets in popup window
+2022-03-16: [BUGFIX] Better positioning of popups on multiscreen setups (#50)
+2022-03-15: [BUGFIX] Ensure toolkit disables naviagation when no focusable controls (#49)
+2022-03-15: [DOCS] Fix docs build error (git --> https)
+2022-03-05: [GITHUB] Require PRs to update CHANGELOG
+2022-03-05: [BUGFIX] Fix tooltip only showing once
+2022-03-05: [BUGFIX] Better handling of empty menus in StatusNotifier widget
+2022-01-09: [FEATURE] Add SnapCast widget (missing some functionality)

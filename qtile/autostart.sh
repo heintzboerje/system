@@ -1,5 +1,5 @@
 #!/bin/sh
-picom -b
+#picom -b
 xinput set-prop "MSFT0001:01 2808:0101 Touchpad" "libinput Tapping Enabled" 1
 # This command will close all active conky
 # killall conky
