@@ -13,7 +13,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+
 	{"nvim-lua/plenary.nvim"},
+
 	{"nvim-treesitter/nvim-treesitter",
 	config=function()
 		require("nvim-treesitter.configs").setup({ensure_installed={"racket", "scheme", "lua", "python", "ruby"},
@@ -23,11 +25,19 @@ require("lazy").setup({
 		},
 	})
 	end},
+
 	{"numToStr/Comment.nvim",
 	config = function()
 		require('Comment').setup()
 	end},
+
 	{"nvim-treesitter/nvim-treesitter-textobjects"},
+
+	{"echasnovski/mini.nvim",
+	version = '*',
+	config = function()
+		require('mini.completion').setup({})
+	end},
 
 	{"RRethy/nvim-treesitter-endwise"},
 
@@ -61,35 +71,44 @@ require("lazy").setup({
 
 	{"alanfortlink/blackjack.nvim"},
 
-	{"matbme/JABS.nvim",
-	lazy=false},
+	--[[ {"matbme/JABS.nvim",
+	lazy = false,
+	config = function()
+		require("jabs").setup ({
+			position = {"center", "bottom"},
+			border = 'single',
+			use_devicons = false
+		})
+	end}, ]]
+
+	{"toppair/reach.nvim",
+	config = function()
+		require('reach').setup({})
+		require('reach').buffers({})
+	end},
 
 	{"gpanders/nvim-parinfer"},
-	--{"steelsojka/pears.nvim"},
-	--{"cohama/lexima.vim"},
 
 	{"m-demare/hlargs.nvim"},
+
 	{"windwp/nvim-autopairs",
 	config = function()
 		require("nvim-autopairs").setup {}
 	end},
+
 	{"folke/which-key.nvim"},
+
 	{"windwp/windline.nvim"},
+
 	{"Vigemus/iron.nvim"},
 })
 
 
 require("repls")
---require("pretty_colors")
+require("pretty_colors")
 require("mappings")
-require("jabs").setup {
-	position = {'center', 'bottom'},
-	relative = 'editor',
-	use_devicons = false,
-}
 require("hlargs").setup()
 require("wlsample.vscode")
---require "pears".setup()
 
 vim.cmd.colorscheme("monokai-pro-machine")
 vim.opt.number = true

@@ -5,7 +5,7 @@ local wk = require("which-key")
 wk.register({
 	b = {
 		name = "buffer",
-		b = {"<cmd>JABSOpen<cr>", "Switch buffer"},
+		b = {"<cmd>ReachOpen buffers<cr>", "Switch buffer"},
 	},
 	t = {
 		name = "terminal",
