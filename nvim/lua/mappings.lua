@@ -21,3 +21,6 @@ wk.register({
 		},
 
 }, {prefix = "<leader>"})
+
+-- I didn't know how to do this in pure lua so...
+vim.cmd("nnoremap <C-W>m <Cmd>WinShift<CR>")
