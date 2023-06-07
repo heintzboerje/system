@@ -18,12 +18,8 @@ require("lazy").setup({
 
 	{"nvim-treesitter/nvim-treesitter",
 	config=function()
-		require("nvim-treesitter.configs").setup({ensure_installed={"racket", "scheme", "lua", "python", "ruby"},
-		endwise = {enable = true},
-		highlight = {
-			enable = true,
-		},
-	})
+		require("nvim-treesitter.configs").setup({ensure_installed = {"racket", "scheme", "lua", "python", "ruby"},
+		endwise = {enable = true}, highlight = {enable = true}})
 	end},
 
 	{"numToStr/Comment.nvim",
@@ -32,12 +28,6 @@ require("lazy").setup({
 	end},
 
 	{"nvim-treesitter/nvim-treesitter-textobjects"},
-
-	{"echasnovski/mini.nvim",
-	version = '*',
-	config = function()
-		require('mini.completion').setup({})
-	end},
 
 	{"RRethy/nvim-treesitter-endwise"},
 
@@ -69,6 +59,17 @@ require("lazy").setup({
 
 	{"Eandrju/cellular-automaton.nvim"},
 
+	{'tamton-aquib/zone.nvim',
+	config = function()
+		require("zone").setup()
+	end},
+
+	{'folke/drop.nvim',
+	event = "VimEnter",
+	config = function()
+		require("drop").setup()
+	end},
+
 	{"alanfortlink/blackjack.nvim"},
 
 	--[[ {"matbme/JABS.nvim",
@@ -87,7 +88,8 @@ require("lazy").setup({
 		require('reach').buffers({})
 	end},
 
-	{"gpanders/nvim-parinfer"},
+	-- {"gpanders/nvim-parinfer"},
+	{"vim-scripts/paredit.vim"},
 
 	{"m-demare/hlargs.nvim"},
 
@@ -101,8 +103,9 @@ require("lazy").setup({
 	{"windwp/windline.nvim"},
 
 	{"Vigemus/iron.nvim"},
-})
 
+	{"lifepillar/vim-mucomplete"},
+})
 
 require("repls")
 require("pretty_colors")
@@ -114,3 +117,7 @@ vim.cmd.colorscheme("monokai-pro-machine")
 vim.opt.number = true
 vim.opt.termguicolors = true
 vim.g.mapleader = " "
+
+-- these settings are for mucomplete
+vim.cmd("set completeopt+=menuone")
+vim.cmd("set shortmess+=c")
