@@ -8,13 +8,34 @@
 ;; Indicate which modules to import to access the variables
 ;; used in this configuration.
 (use-modules (gnu)
-	     (nongnu packages linux))
-(use-service-modules admin cups desktop networking ssh xorg sddm nix)
+	     (nongnu packages linux)
+	     ;; (gnu services desktop)
+	     ;; (guix channels)
+	     ;; (srfi srfi-1)
+	     ;; (guix inferior)
+	     )
+(use-service-modules desktop admin cups networking ssh xorg sddm nix)
 (use-package-modules cups package-management shells wm)
 
 (operating-system
+  #| (kernel
+    (let*
+      ((channels
+	 (list (channel
+		 (name 'nonguix)
+		 (url "https://gitlab.com/nonguix/nonguix")
+		 (commit "dd7519aa20948e42469eccc3c7c99c1633420a07")
+		 )
+	       (channel
+		 (name 'guix)
+		 (url "https://git.savannah.gnu.org/git/guix.git")
+		 (commit "b4382b294e6cd475e9476610d98fdd0bdaec4c84"))))
+       (inferior
+	 (inferior-for-channels channels)))
+      (first (lookup-inferior-packages inferior "linux" "6.3.5")))) |#
   (kernel linux)
-  (firmware (cons* iwlwifi-firmware %base-firmware))
+  (label "Asami 0.1")
+  (firmware (cons* ibt-hw-firmware iwlwifi-firmware %base-firmware))
   (locale "fr_FR.utf8")
   (timezone "America/New_York")
   (keyboard-layout (keyboard-layout "us"))
@@ -54,7 +75,9 @@
 			  (specification->package "nix")
 			  (specification->package "nss-certs")
 			  ;; (specification->package "racket")
-			  ;; (specification->package "bluez")
+			  (specification->package "bluez")
+			  (specification->package "zsh-syntax-highlighting")
+			  (specification->package "zsh-completions")
 			  )
 		    %base-packages))
 
@@ -68,7 +91,10 @@
 				       (list cups-filters hplip-minimal))))
 			  (service nix-service-type)
 			  (service gpm-service-type)
-			  (service bluetooth-service-type)
+			  (service bluetooth-service-type
+				   (bluetooth-configuration
+				     ;; (bluez bluez)
+				     (auto-enable? #t)))
 			  (service unattended-upgrade-service-type
 				   (unattended-upgrade-configuration
 				     (operating-system-file
