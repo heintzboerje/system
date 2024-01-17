@@ -6,5 +6,5 @@
 
 config_version: 2
 settings:
-  content.blocking.method:
-    global: both
+  content.notifications.enabled:
+    https://limelight-media.com: false

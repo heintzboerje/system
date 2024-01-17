@@ -1,0 +1,35 @@
+Config {
+  font = "Terminess Nerd Font Mono Regular Bold 10"
+
+  ,position = Top
+  ,lowerOnStart = False
+  ,allDesktops = True
+  ,overrideRedirect = False
+  ,alpha=12
+  ,Border=
+  ,template = "%battery% | %memory% | %disku%} %date% %LFBI% { %dynnetwork% | %alsa:default:Master% | %bright%"
+
+  ,commands = [
+      Run BatteryP ["BAT0"]
+        ["--template" , "<leftvbar><left>"
+        ,"--Low" , "20"
+        ,"--High", "90"
+        ,"--low" , "red"
+        ,"--normal" , "lightblue"
+        ,"--high" , "green"
+        ,"--"
+        ,"-P"
+        ,"-a" , "dunstify -u critical 'Batterie faible'"
+        ,"-A", "10"] 600
+
+      ,Run Memory ["-t" , "<usedvbar>"] 50
+      ,Run DateZone "%a %d %b %Y <fc=#ee9a00>%H:%M:%S</fc>" "" "" "date" 10
+      ,Run DiskU [("/", "<freebar>")] [] 20
+      ,Run Brightness ["-t", "<vbar>"
+                      ,"--"
+                      ,"-D", "/sys/class/backlight/intel_backlight"] 60
+      ,Run Alsa "default" "Master" []
+      ,Run DynNetwork [] 10
+      ,Run Weather "LFBI" [] 36000
+      ]
+  }

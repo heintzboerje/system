@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: qtile-extras
-Version: 0.22.1
-Summary: Extra items for qtile that are unlikely to be maintained in the main repo.
-Home-page: https://github.com/elparaguayo/qtile-extras
-Author: elParaguayo
-License: MIT
-License-File: LICENSE

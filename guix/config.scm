@@ -1,146 +1,84 @@
-;;
-;; Once installation is complete, you can learn and modify
-;; this file to tweak the system configuration, and pass it
-;; to the 'guix system reconfigure' command to effect your
-;; changes.
+;; -*- mode: scheme; -*-
+;; This is an operating system configuration template
+;; for a "desktop" setup without full-blown desktop
+;; environments.
 
-
-;; Indicate which modules to import to access the variables
-;; used in this configuration.
-(use-modules (gnu)
-	     (nongnu packages linux)
-	     ;; (gnu services desktop)
-	     ;; (guix channels)
-	     ;; (srfi srfi-1)
-	     ;; (guix inferior)
-	     )
-(use-service-modules desktop admin cups networking ssh xorg sddm nix)
-(use-package-modules cups package-management shells wm)
+(use-modules (gnu) (gnu system nss) (nongnu packages linux))
+(use-service-modules desktop xorg)
+(use-package-modules linux bootloaders certs emacs display-managers wm
+                     xorg xdisorg terminals shells)
 
 (operating-system
-  #| (kernel
-    (let*
-      ((channels
-	 (list (channel
-		 (name 'nonguix)
-		 (url "https://gitlab.com/nonguix/nonguix")
-		 (commit "dd7519aa20948e42469eccc3c7c99c1633420a07")
-		 )
-	       (channel
-		 (name 'guix)
-		 (url "https://git.savannah.gnu.org/git/guix.git")
-		 (commit "b4382b294e6cd475e9476610d98fdd0bdaec4c84"))))
-       (inferior
-	 (inferior-for-channels channels)))
-      (first (lookup-inferior-packages inferior "linux" "6.3.5")))) |#
-  (kernel linux)
-  (label "Asami 0.1")
-  (firmware (cons* ibt-hw-firmware iwlwifi-firmware %base-firmware))
-  (locale "fr_FR.utf8")
-  (timezone "America/New_York")
-  (keyboard-layout (keyboard-layout "us"))
-  (host-name "buscador")
-
-  ;; The list of user accounts ('root' is implicit).
-  (users (cons* (user-account
-		  (name "yu")
-		  (comment "Yu")
-		  (group "users")
-		  (home-directory "/home/yu")
-		  (supplementary-groups '("wheel" "netdev" "audio" "video" "lp"))
-		  (shell (file-append zsh "/bin/zsh")))
-
-		#| (user-account
-		  (name "kodi")
-		  (comment "Kodi")
-		  (group "users")
-		  (home-directory "/home/kodi")
-		  (supplementary-groups '("wheel" "netdev" "audio" "video"))) |#
-		%base-user-accounts))
-
-  ;; Packages installed system-wide.  Users can also install packages
-  ;; under their own account: use 'guix search KEYWORD' to search
-  ;; for packages and 'guix install PACKAGE' to install a package.
-  
-  (packages (append (list (specification->package "awesome")
-			  (specification->package "qtile")
-			  (specification->package "xmonad")
-			  (specification->package "ghc-xmonad-contrib")
-			  (specification->package "xmobar")
-			  (specification->package "sugar-dark-sddm-theme")
-			  (specification->package "icedtea")
-			  (specification->package "i3lock")
-			  (specification->package "i3lock-fancy")
-			  (specification->package "kitty")
-			  (specification->package "nix")
-			  (specification->package "nss-certs")
-			  ;; (specification->package "racket")
-			  (specification->package "bluez")
-			  (specification->package "zsh-syntax-highlighting")
-			  (specification->package "zsh-completions")
-			  )
-		    %base-packages))
-
-  ;; Below is the list of system services.  To search for available
-  ;; services, run 'guix system search KEYWORD' in a terminal.
-  (services (append (list (service openssh-service-type)
-			  (service tor-service-type)
-			  (service cups-service-type
-				   (cups-configuration
-				     (extensions
-				       (list cups-filters hplip-minimal))))
-			  (service nix-service-type)
-			  (service gpm-service-type)
-			  (service bluetooth-service-type
-				   (bluetooth-configuration
-				     ;; (bluez bluez)
-				     (auto-enable? #t)))
-			  (service unattended-upgrade-service-type
-				   (unattended-upgrade-configuration
-				     (operating-system-file
-				       (file-append (local-file "." "config-dir" #:recursive? #t) "/config.scm"))))
-			  (service sddm-service-type
-				   (sddm-configuration
-				     (theme "sugar-dark")
-				     (numlock "none")
-				     (minimum-vt 1)
-				     (xorg-configuration
-				       (xorg-configuration (keyboard-layout keyboard-layout)))))
-			  #| (service screen-locker-service-type
-				   (screen-locker-configuration
-				     (name "i3lock-fancy")
-				     (program (file-append i3lock-fancy "/bin/i3lock-fancy"))
-				     (using-setuid? #t))) |#
-			  )
-		    (modify-services %desktop-services
-				     (delete gdm-service-type)
-				     (guix-service-type config =>
-							(guix-configuration
-							  (inherit config)
-							  (substitute-urls
-							    (append (list "https://substitutes.nonguix.org")
-								    %default-substitute-urls))
-							  (authorized-keys
-							    (append (list (local-file "key.pub"))
-								    %default-authorized-guix-keys)))))))
-
-  (bootloader (bootloader-configuration
-		(bootloader grub-efi-bootloader)
-		(targets (list "/boot/efi"))
-		(keyboard-layout keyboard-layout)))
-
-  (swap-devices (list (swap-space
-			(target (file-system-label "MY-SWAP")))))
-
-  ;; The list of file systems that get "mounted".  The unique
-  ;; file system identifiers there ("UUIDs") can be obtained
-  ;; by running 'blkid' in a terminal.
-  (file-systems (cons* (file-system
-			 (mount-point "/boot/efi")
-			 (device (file-system-label "MY-BOOT"))
-			 (type "vfat"))
-		       (file-system
-			 (mount-point "/")
-			 (device (file-system-label "MY-ROOT"))
-			 (type "ext4"))
-		       %base-file-systems)))
+ (kernel linux)
+ (label "Beyond the point of no return")
+ (firmware  (list linux-firmware))
+ (host-name "mimisbrunnr")
+ (timezone "Europe/Paris")
+ (locale "fr_FR.utf8")
+ (keyboard-layout (keyboard-layout "fr"))
+ 
+ ;; Use the UEFI variant of GRUB with the EFI System
+ ;; Partition mounted on /boot/efi.
+ (bootloader (bootloader-configuration
+              (bootloader grub-efi-bootloader)
+              (targets '("/boot/efi"))))
+ 
+ ;; Assume the target root file system is labelled "my-root",
+ ;; and the EFI System Partition has UUID 1234-ABCD.
+ (file-systems (append
+                (list (file-system
+                       (device (file-system-label "yggdrasil"))
+                       (mount-point "/")
+                       (type "ext4"))
+                      (file-system
+                       (device (file-system-label "hvergelmir"))
+                       (mount-point "/boot/efi")
+                       (type "vfat")))
+                %base-file-systems))
+ 
+ (users (cons (user-account
+               (name "jheyrree")
+               (comment "Jheyrree")
+               (home-directory "/home/nous")
+               (group "users")
+	       (shell (file-append zsh "/bin/zsh"))
+               (supplementary-groups '("wheel" "netdev"
+                                       "audio" "video" "lp")))
+              %base-user-accounts))
+ 
+ ;; Add a bunch of window managers; we can choose one at
+ ;; the log-in screen with F1.
+ (packages (append (list
+                    ;; window managers
+                    i3-wm emacs-no-x xmobar
+                    bspwm sxhkd rofi i3lock i3lock-fancy
+                    ;; terminal emulator
+                    alacritty
+                    ;; bluetooth
+                    bluez
+                    ;; for HTTPS access
+                    nss-certs)
+                   %base-packages))
+ 
+ ;; Use the "desktop" services, which include the X11
+ ;; log-in service, networking with NetworkManager, and more.
+ (services (append (list
+		    (simple-service 'my-bluetooth-service bluetooth-service-type
+				    (list
+				    (bluetooth-configuration (name "yggdrasil"))))
+		   ; (service bluetooth-service-type (bluetooth-configuration
+		;				     (name "yggdrasil")))
+		    (set-xorg-configuration
+		     (xorg-configuration (keyboard-layout keyboard-layout)))
+		    (service screen-locker-service-type
+			     (screen-locker-configuration
+			      (name "i3lock-fancy")
+			      (program (file-append i3lock-fancy "/bin/i3lock-fancy"))
+			      (allow-empty-password? #t)
+			      (using-pam? #f)
+			      (using-setuid? #t)))
+		    )
+		   %desktop-services))
+ 
+ ;; Allow resolution of '.local' host names with mDNS.
+ (name-service-switch %mdns-host-lookup-nss))

@@ -1,0 +1,63 @@
+# app drawer
+mod4 + space
+	rofi -show drun
+
+# close window
+mod4 + c
+	bspc node focused --close
+	
+# fullscreen current window
+mod4 + f
+	bspc node focused -t ~fullscreen
+
+# open terminal
+mod4 + Return
+	st
+
+# reload keybinding config
+mod4 + Escape
+	pkill -USR1 -x sxhkd
+
+# restart/quit window manager
+mod4 + shift + r
+	bspc wm --restart
+
+mod4 + shift + q
+	bspc quit
+
+# brightness control
+XF86MonBrightnessUp
+	brightnessctl set +10% -e
+
+XF86MonBrightnessDown
+	brightnessctl set 10%- -e
+
+# volume control
+XF86AudioRaiseVolume
+	pactl set-sink-volume alsa_output.pci-0000_00_0e.0.analog-stereo +10%
+	
+XF86AudioLowerVolume
+	pactl set-sink-volume alsa_output.pci-0000_00_0e.0.analog-stereo -10%
+
+XF86AudioMute
+	pactl set-sink-mute   alsa_output.pci-0000_00_0e.0.analog-stereo toggle
+
+# window navigation
+mod4 + {Left, Down, Up, Right}
+	bspc node {west,south,north,east} --focus
+
+mod4 + {h, j, k, l}
+	bspc node {west,south,north,east} --focus
+
+mod4 + b
+	qutebrowser	
+
+# desktop navigation
+mod4 + {_,shift + }{ampersand,eacute,quotedbl,apostrophe,parenleft,minus,egrave,underscore,ccedilla}
+    bspc {desktop -f,node -d} {I, II, III, IV, V, VI, VII, VIII, IX}
+
+Prior
+	dunstctl close-all
+
+Next
+	dunstctl history-pop

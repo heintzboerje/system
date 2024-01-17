@@ -1,0 +1,40 @@
+Config {
+  font = "ProggyClean Nerd Font Mono Regular Bold 12"
+  ,additionalFonts=["Symbola"]
+  ,position = Top
+  ,lowerOnStart = False
+  ,allDesktops = True
+  ,overrideRedirect = False
+  ,alpha=127
+  ,template = "%battery% | %memory% | %disku%} %date% %LFBI% { %dynnetwork% | %alsa:default:Master% | %bright%"
+  ,border = BottomB
+  --,borderColor = ""
+  ,commands = [
+      Run BatteryP ["BAT0"]
+        ["--template" , "<leftvbar><left>"
+        ,"--Low" , "20"
+        ,"--High", "90"
+        ,"--low" , "red"
+        ,"--normal" , "lightblue"
+        ,"--high" , "green"
+        ,"--"
+        ,"-P"
+        ,"-a" , "dunstify -u critical 'Batterie faible'"
+        ,"-A", "10"] 600
+
+      ,Run Memory ["-t" , "<usedratio>%<usedvbar> <availablevbar><availableratio>%"] 50
+      ,Run DateZone "%a %d %b %Y <fc=#ee9a00>%H:%M:%S</fc>" "" "" "date" 10
+      ,Run DiskU [("/", "<used>/<size>")] [] 20
+      ,Run Brightness ["-t", "<vbar>"
+                      ,"--"
+                      ,"-D", "/sys/class/backlight/intel_backlight"] 5
+      ,Run Alsa "default" "Master"
+        ["--template" , "<volumestatus>%"]
+      ,Run DynNetwork [] 10
+      ,Run Weather "LFBI" ["--template" , "<station>:<tempC>° <skyCondition>"
+                          ,"--Low" , "13"
+                          ,"--High", "30"
+                          ,"--low" , "lightblue"
+                          ,"--high", "orange"] 3600
+      ]
+  }
