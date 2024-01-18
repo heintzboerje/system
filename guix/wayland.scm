@@ -70,14 +70,36 @@
 				    (bluetooth-configuration (name "yggdrasil"))))
 		   ; (service bluetooth-service-type (bluetooth-configuration
 					;				     (name "yggdrasil")))
-		    (service sddm-service-type
-			     (sddm-configuration
-			      ;;(display-server "wayland")
-			      (theme "abstractdark")
-			      (xorg-configuration (xorg-configuration
-						   (keyboard-layout keyboard-layout)))))
-		    ;(set-xorg-configuration
-		     ;(xorg-configuration (keyboard-layout keyboard-layout)))
+		    (service greetd-service-type
+			     (greetd-configuration
+			      (greeter-supplementary-groups '("video" "input"))
+			      (terminals
+			       (list (greetd-terminal-configuration
+				      (terminal-vt "1")
+				      (terminal-switch #t)
+				      (default-session-command
+					(greetd-agreety-session
+					 (command (file-append river "/bin/river"))
+					 (command-args '())
+					 (extra-env '(("XKB_DEFAULT_LAYOUT" . "fr"))))))
+				     (greetd-terminal-configuration
+				      (terminal-vt "2"))
+				     (greetd-terminal-configuration
+				      (terminal-vt "3"))
+				     (greetd-terminal-configuration
+				      (terminal-vt "4"))
+				     (greetd-terminal-configuration
+				      (terminal-vt "5"))
+				     (greetd-terminal-configuration
+				      (terminal-vt "6"))
+				     (greetd-terminal-configuration
+				      (terminal-vt "7"))
+				     (greetd-terminal-configuration
+				      (terminal-vt "8"))
+				     (greetd-terminal-configuration
+				      (terminal-vt "9"))
+				     ))))
+
 		    (service screen-locker-service-type
 			     (screen-locker-configuration
 			      (name "swaylock")
@@ -86,7 +108,9 @@
 			      (using-pam? #t)
 			      (using-setuid? #f)))
 		    )
-		   (modify-services %desktop-services (delete gdm-service-type))))
+		   (modify-services %desktop-services (delete gdm-service-type)
+				    (delete login-service-type)
+				    (delete mingetty-service-type))))
  
  ;; Allow resolution of '.local' host names with mDNS.
  (name-service-switch %mdns-host-lookup-nss))
